@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraceBox — Visual Code &amp; Memory Execution Sandbox</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="logo-mark">TB</span>
+            <div>
+                <h1>TraceBox</h1>
+                <p>Step-by-Step Python Logic &amp; Memory State Sandbox</p>
+            </div>
+        </div>
+        <div class="preset-bar">
+            <label for="presetSelect">Sample Algorithms:</label>
+            <select id="presetSelect">
+                <option value="loop">For Loop &amp; Accumulator</option>
+                <option value="list">List Mutation &amp; Filtering</option>
+                <option value="bubble">Bubble Sort Pass</option>
+                <option value="factorial">Factorial (Recursion)</option>
+            </select>
+            <button id="visualizeBtn" class="btn-primary">Visualize Execution</button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <!-- Left pane: code input and live line highlighter -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>1. Source Code &amp; Execution Pointer</h2>
+                <button id="editModeBtn" class="btn-secondary hidden">Edit Code</button>
+            </div>
+
+            <textarea id="codeEditor" spellcheck="false">numbers = [10, 25, 30, 15]
+total = 0
+
+for n in numbers:
+    if n > 15:
+        total = total + n
+
+print("Filtered Sum:", total)</textarea>
+            <div id="codeTraceView" class="code-viewer hidden"></div>
+
+            <div class="controls-bar">
+                <button id="firstBtn" class="btn-step" disabled>&laquo; First</button>
+                <button id="prevBtn" class="btn-step" disabled>&lsaquo; Prev</button>
+                <span id="stepCounter" class="step-badge">Step 0 / 0</span>
+                <button id="nextBtn" class="btn-step" disabled>Next &rsaquo;</button>
+                <button id="lastBtn" class="btn-step" disabled>Last &raquo;</button>
+            </div>
+            <p class="hint">Tip: after visualizing, use the <kbd>&larr;</kbd> / <kbd>&rarr;</kbd> arrow keys to step.</p>
+
+            <div id="errorBanner" class="banner error hidden"></div>
+        </section>
+
+        <!-- Right pane: memory state and console -->
+        <section class="panel">
+            <div class="panel-header">
+                <h2>2. Memory State</h2>
+                <span id="activeLineInfo" class="line-info">Editing</span>
+            </div>
+            <div id="memoryGrid" class="memory-grid">
+                <p class="empty">Click <strong>Visualize Execution</strong> to see variables here.</p>
+            </div>
+
+            <div class="panel-header console-header">
+                <h2>3. Console Output (stdout)</h2>
+            </div>
+            <pre id="stdoutBox" class="stdout-box"></pre>
+        </section>
+    </main>
+
+    <footer class="footer">
+        TraceBox runs your code in a restricted sandbox: no imports, no file or network access,
+        max 150 steps, 3-second timeout.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
